@@ -1,9 +1,9 @@
 import express from 'express';
-import { user } from '@/routes/user';
+import { description } from '@/routes/description';
 const pino = require('pino-http')()
 
 
 export const routes = express.Router();
 routes.use(pino)
 
-routes.use(user);
+routes.use(description);

@@ -1,10 +1,9 @@
 import { Match } from "../domain/match";
-import { Matches } from "../domain/matches";
 import { Summoner } from "../domain/summoner";
 
 export default interface RiotGatewayInterface {
-  getSummonerByName: (summonerName: string) => Promise<Summoner>
-  getMatchesByPuuid: (puuid: string) => Promise<Matches>
-  getMatchById: (matchId: string) => Promise<Match>
+  getSummonerByName: (summonerName: string, region: string) => Promise<Summoner>
+  getMatchesByPuuid: (puuid: string, region: string) => Promise<string[]>
+  getMatchById: (matchId: string, region: string) => Promise<Match>
 
 }

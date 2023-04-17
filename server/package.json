@@ -11,7 +11,7 @@
     "docker:run": "npm run docker:build && docker run --env-file='.env-dev' -p 3000:3000 element-backend",
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "test": "jest --coverage",
-    "start": "npm run build && dotenv -e .env-dev -- node dist/app.js",
+    "start": "npm run build && dotenv -e .env -- node dist/app.js",
     "dev": "nodemon src/app.ts"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/express-pino-logger": "^4.0.3",
+    "axios": "^1.3.5",
     "body-parser": "1.20.1",
     "cors": "2.8.5",
     "dotenv": "^8.2.0",
