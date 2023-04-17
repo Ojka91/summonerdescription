@@ -3,6 +3,6 @@ import { createGetSummonerDataHandler } from "@/pkg/riot/bootstrap/get_summoner_
 export default class DescriptionHandler {
     public async handle() {
         const handler = createGetSummonerDataHandler()
-       return await handler.handle('', 'Ojka')
+       return await handler.handle('euw1', 'Ojka')
     }
 }

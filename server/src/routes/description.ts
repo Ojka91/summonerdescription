@@ -6,8 +6,9 @@ export const description: Router = express.Router();
 
 description.get('/description', async (req: Request, res: Response) => {
     const controller = new DescriptionHandler()
-    const response = controller.handle()
-    return res.send('');
+    const response = await controller.handle()
+    console.log(response)
+    return res.send(response);
 })
 
 
