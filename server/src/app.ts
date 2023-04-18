@@ -4,7 +4,6 @@ import bodyParser from 'body-parser';
 import { routes } from '@/routes';
 import * as dotenv from 'dotenv'
 export const app: Express = express();
-import { RedisSingleton } from './redis';
 //import { User } from './controllers/user';
 dotenv.config({ path: `.env${process.env.NODE_ENV}` });
 
@@ -22,4 +21,3 @@ app.listen(process.env.PORT || 3000, () => {
   console.log('Server listening on port 3000')
 });
 
-//if (process.env.ENV != 'development') RedisSingleton.getInstance().connect()
