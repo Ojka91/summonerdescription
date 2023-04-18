@@ -22,5 +22,6 @@ node_modules/
 # MacOsh DS_Store files
 .DS_Store
 
+server/build/
 server/dist/
 .server/dist/*

@@ -4,8 +4,14 @@ import { Match } from '../domain/match'
 import { Summoner } from '../domain/summoner'
 import { League } from '../domain/league'
 import { AxiosError, AxiosInstance } from 'axios'
+import { RiotError } from '../domain/error'
+import { logger } from '@/utils/logger'
 
 
+/**
+ * RiotGateway.
+ * This class contains the necessary methods to call riot api
+ */
 export class RiotGateway implements RiotGatewayInterface {
 
   private count = 20
@@ -22,9 +28,9 @@ export class RiotGateway implements RiotGatewayInterface {
 
       return response.data
     } catch (error) {
-      let message: string
-      // TODO !!! if ((error as AxiosError)?.response?.status === 404) 
-      throw new Error((error as Error).message)
+      if ((error as AxiosError)?.response?.status === 404) throw new Error((error as AxiosError<RiotError>)?.response?.data?.status?.message)
+      logger.error(error, "getSummonerByName error")
+      throw new Error("Oops... Unexpected error ocurred :( Please try again later or raise the issue")
     }
    
   }
@@ -35,8 +41,9 @@ export class RiotGateway implements RiotGatewayInterface {
 
       return response.data
     } catch (error) {
-      throw new Error((error as Error).message)
-    }
+      if ((error as AxiosError)?.response?.status === 404) throw new Error((error as AxiosError<RiotError>)?.response?.data?.status?.message)
+      logger.error(error, "getMatchesByPuuid error")
+      throw new Error("Oops... Unexpected error ocurred :( Please try again later or raise the issue")    }
    
   }
 
@@ -46,8 +53,9 @@ export class RiotGateway implements RiotGatewayInterface {
 
       return response.data
     } catch (error) {
-      throw new Error((error as Error).message)
-    }
+      if ((error as AxiosError)?.response?.status === 404) throw new Error((error as AxiosError<RiotError>)?.response?.data?.status?.message)
+      logger.error(error, "getMatchById error")
+      throw new Error("Oops... Unexpected error ocurred :( Please try again later or raise the issue")    }
   }
 
   public async getSummonerLeague (summonerId: string, region: string): Promise<League[]> {
@@ -56,7 +64,8 @@ export class RiotGateway implements RiotGatewayInterface {
 
       return response.data
     } catch (error) {
-      throw new Error((error as Error).message)
-    }
+      if ((error as AxiosError)?.response?.status === 404) throw new Error((error as AxiosError<RiotError>)?.response?.data?.status?.message)
+      logger.error(error, "getSummonerLeague error")
+      throw new Error("Oops... Unexpected error ocurred :( Please try again later or raise the issue")    }
   }
 }
