@@ -7,6 +7,7 @@ var app = new Vue({
       freeName: "",
       freeApiKey: "",
       freeRegion: "",
+      premiumName: "",
       premiumRegion: ""
     },
     methods: {

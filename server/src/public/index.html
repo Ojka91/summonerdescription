@@ -164,7 +164,7 @@
                             <form onsubmit="return false;" id="getDescriptionForm">
                                 <div class="mb-3">
                                     <label for="twitterUsername" class="form-label">Summoner name</label>
-                                    <input type="text" class="form-control" id="twitterUsername"
+                                    <input type="text" class="form-control" v-model="premiumName"
                                         placeholder="Enter a username">
                                 </div>
 
@@ -209,7 +209,7 @@
                                             href="https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key">how
                                             do I get this?</a> </label>
                                     <input type="text" class="form-control" v-model="freeApiKey"
-                                        placeholder="I promise I do not store this anywhere">
+                                        placeholder="I promise I do not store this anywhere (optional)">
                                 </div>
 
                                 <div class="mb-3">
@@ -295,8 +295,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>There is a limit of 100 free requests per day. The reason for that is that it costs me money.</p>
-                    <br>
+                    <p>There is a limit of 100 free requests per day. The reason for that is that using my api key costs me money.</p>
                     <p>You can still use your own openAI Api Key to perform as many requests as you like :)</p>
                     <p>I do not store your
                         api key credentials anywhere. I promise. </p>
@@ -361,7 +360,7 @@
     <script src="./scripts/index.js"></script>
     <!-- Replace "test" with your own sandbox Business account app client ID -->
     <script
-        src="https://www.paypal.com/sdk/js?client-id=AQRz7CqdiUn8M5qqBFYO7EjDo4HE1cIU1rkSers9-7jposPv-l_rgN0EpkYCYtnCoLXQblAkkmB-f5-6&currency=USD">
+        src="https://www.paypal.com/sdk/js?client-id=AQRz7CqdiUn8M5qqBFYO7EjDo4HE1cIU1rkSers9-7jposPv-l_rgN0EpkYCYtnCoLXQblAkkmB-f5-6&currency=USD&disable-funding=sofort">
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -400,7 +399,9 @@
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            orderID: data.orderID
+                            orderID: data.orderID,
+                            summonerName: app.premiumName,
+                            region: app.premiumRegion
                         })
                     })
                     .then((response) => response.json())
