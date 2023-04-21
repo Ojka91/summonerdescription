@@ -14,7 +14,7 @@ import { logger } from '@/utils/logger'
  */
 export class RiotGateway implements RiotGatewayInterface {
 
-  private count = 20
+  private count = 15
 
   constructor (
     private readonly httpClient: AxiosInstance,

@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use('/', routes)
 
 app.get('/health', async (_req: Request, res: Response) => {
-  return res.send({ status: 'ok' });
+  return res.json({ status: 'ok' });
 });
 
 app.get('/', (_, res) => {

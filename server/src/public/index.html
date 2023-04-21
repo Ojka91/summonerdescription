@@ -43,13 +43,80 @@
             padding-left: 20px;
             margin-top: 10px;
             margin-bottom: 1rem;
-            border: dashed 1px #48c4f7;;
+            border: dashed 1px #48c4f7;
+            ;
             border-radius: 0.25rem;
             font-size: 14px;
             font-style: italic;
             color: #707070;
             background-color: rgb(219 241 249 / 84%);
+        }
 
+        .lds-ellipsis {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .lds-ellipsis div {
+            position: absolute;
+            top: 33px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: #cef;
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+
+        .lds-ellipsis div:nth-child(1) {
+            left: 8px;
+            animation: lds-ellipsis1 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(2) {
+            left: 8px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(3) {
+            left: 32px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(4) {
+            left: 56px;
+            animation: lds-ellipsis3 0.6s infinite;
+        }
+
+        @keyframes lds-ellipsis1 {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes lds-ellipsis3 {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(0);
+            }
+        }
+
+        @keyframes lds-ellipsis2 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(24px, 0);
+            }
         }
     </style>
 </head>
@@ -94,7 +161,7 @@
 
                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                            <form onsubmit="getDescription(); return false;" id="getDescriptionForm">
+                            <form onsubmit="return false;" id="getDescriptionForm">
                                 <div class="mb-3">
                                     <label for="twitterUsername" class="form-label">Summoner name</label>
                                     <input type="text" class="form-control" id="twitterUsername"
@@ -106,12 +173,13 @@
                                         <div class="input-group-prepend">
                                             <label class="input-group-text" for="inputGroupSelect01">Region</label>
                                         </div>
-                                        <select class="custom-select" id="inputGroupSelect01">
+                                        <select class="custom-select" id="inputGroupSelect01" v-model="premiumRegion">
                                             <option v-for="region in regions" :value="region">{{region}}</option>
                                         </select>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal">Get description</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#paymentModal">Get description</button>
                             </form>
                         </div>
                     </div>
@@ -130,17 +198,17 @@
                     </div>
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                         <div class="card-body">
-                            <form onsubmit="getDescription(); return false;" id="getDescriptionForm">
+                            <form onsubmit="return false;" id="getFreeDescriptionForm">
                                 <div class="mb-3">
-                                    <label for="twitterUsername" class="form-label">Summoner name</label>
-                                    <input type="text" class="form-control" id="twitterUsername"
+                                    <label  class="form-label">Summoner name</label>
+                                    <input type="text" class="form-control" v-model="freeName"
                                         placeholder="Enter a username">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="twitterUsername" class="form-label">OpenAI API KEY <a
+                                    <label  class="form-label">OpenAI API KEY <a
                                             href="https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key">how
                                             do I get this?</a> </label>
-                                    <input type="text" class="form-control" id="twitterUsername"
+                                    <input type="text" class="form-control" v-model="freeApiKey"
                                         placeholder="I promise I do not store this anywhere">
                                 </div>
 
@@ -149,12 +217,12 @@
                                         <div class="input-group-prepend">
                                             <label class="input-group-text" for="inputGroupSelect01">Region</label>
                                         </div>
-                                        <select class="custom-select" id="inputGroupSelect01">
-                                            <option v-for="region in regions" :value="region">{{region}}</option>
+                                        <select class="custom-select" id="inputGroupSelect01" v-model="freeRegion">
+                                            <option v-for="region in regions" v-bind:value="region"  id="freeRegion">{{region}}</option>
                                         </select>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Get description</button>
+                                <button @click="getFreeDescription()" class="btn btn-primary">Get description</button>
                             </form>
                         </div>
                     </div>
@@ -163,11 +231,18 @@
             <!--   fin test-->
 
 
+            <div style="display:flex; justify-content: center; align-items: center;">
 
-
+                <div v-if="loading" class="lds-ellipsis">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
 
             <div class="description" v-if="description">
-                Something
+                {{description}}
             </div>
             <div class="mt-5 text-muted alert alert-warning " role="alert"
                 style="display: flex; justify-content: space-between;">
@@ -235,31 +310,59 @@
     </div>
 
     <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">Premium Tier</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="paypal-button-container"></div>
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Premium Tier</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Premium tier has a cost of 1$. 
+                        Each request to chatGPT and mantaining servers costs money. This will help me keeping it up.
+                    </p>
+                    <p>Please select your prefered payment method.</p>
+                    <div id="paypal-button-container"></div>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">No,
-                    thanks</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">No,
+                        thanks</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="modal fade" id="thanksModal" tabindex="-1" role="dialog" aria-labelledby="thanksModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="thanksModalLabel">Thank you</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ❤️ Thank you for helping mantain this project :)
+                    Your request is being processed
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Thank you</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="./scripts/index.js"></script>
-        <!-- Replace "test" with your own sandbox Business account app client ID -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AQRz7CqdiUn8M5qqBFYO7EjDo4HE1cIU1rkSers9-7jposPv-l_rgN0EpkYCYtnCoLXQblAkkmB-f5-6&currency=USD"></script>
+    <!-- Replace "test" with your own sandbox Business account app client ID -->
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AQRz7CqdiUn8M5qqBFYO7EjDo4HE1cIU1rkSers9-7jposPv-l_rgN0EpkYCYtnCoLXQblAkkmB-f5-6&currency=USD">
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
@@ -270,57 +373,53 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
-      <script>
+    <script>
         paypal.Buttons({
-          // Order is created on the server and the order id is returned
-          createOrder() {
-            return fetch("/create-paypal-order", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              // use the "body" param to optionally pass additional order information
-              // like product skus and quantities
-              body: JSON.stringify({
-                cart: [
-                  {
-                    sku: "YOUR_PRODUCT_STOCK_KEEPING_UNIT",
-                    quantity: "YOUR_PRODUCT_QUANTITY",
-                  },
-                ],
-              }),
-            })
-            .then((response) => response.json())
-            .then((order) => order.id);
-          },
-          // Finalize the transaction on the server after payer approval
-          onApprove(data) {
-            return fetch("/capture-paypal-order", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                orderID: data.orderID
-              })
-            })
-            .then((response) => response.json())
-            .then((orderData) => {
-              // Successful capture! For dev/demo purposes:
+            // Order is created on the server and the order id is returned
+            createOrder() {
+                return fetch("/create-paypal-order", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        // use the "body" param to optionally pass additional order information
+                        // like product skus and quantities
+                    })
+                    .then((response) => response.json())
+                    .then((order) => order.id);
+            },
+            // Finalize the transaction on the server after payer approval
+            onApprove(data) {
+                $('#paymentModal').modal('hide')
+                $('#thanksModal').modal('show')
+                app.loading = true
 
-              console.log(orderData)
-            //   console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-            //   const transaction = orderData.purchase_units[0].payments.captures[0];
-            //   alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+                return fetch("/capture-paypal-order", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            orderID: data.orderID
+                        })
+                    })
+                    .then((response) => response.json())
+                    .then((orderData) => {
+                        // Successful capture! For dev/demo purposes:
+                        app.description = JSON.stringify(orderData)
+                        app.loading = false
+                        //   console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                        //   const transaction = orderData.purchase_units[0].payments.captures[0];
+                        //   alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
 
-              // When ready to go live, remove the alert and show a success message within this page. For example:
-              // const element = document.getElementById('paypal-button-container');
-              // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-              // Or go to another URL:  window.location.href = 'thank_you.html';
-            });
-          }
+                        // When ready to go live, remove the alert and show a success message within this page. For example:
+                        // const element = document.getElementById('paypal-button-container');
+                        // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                        // Or go to another URL:  window.location.href = 'thank_you.html';
+                    });
+            }
         }).render('#paypal-button-container');
-      </script>
+    </script>
 </body>
 
 </html>

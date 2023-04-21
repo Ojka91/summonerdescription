@@ -8,9 +8,9 @@ description.get('/description/free', async (req: Request, res: Response) => {
     try {
         const generateDescriptionHandler = new GenerateFreeDescription()
         const response = await generateDescriptionHandler.generate(req.query.region as string ?? 'euw1', req.query.name as string ?? '', req.query.api_key as string ?? '')
-        return res.send(response);
+        return res.json(response);
     } catch (error) {
-        return res.status(500).send((error as Error).message)
+        return res.json((error as Error).message)
     }
 })
 

@@ -19,7 +19,7 @@ export default class GenerateFreeDescription {
             const prompt = freePrompt.get()
 
             
-            console.log(summonerPrompt)
+            //console.log(summonerPrompt)
             return summonerPrompt
 
 

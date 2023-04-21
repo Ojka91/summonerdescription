@@ -27,10 +27,11 @@ constructor (
       const matchesId: string[] = await this.riotGateway.getMatchesByPuuid(summoner.puuid, regionRouter[region])
       
       // Get detailed info for every match (there is no cleaner way to do it with current status of riot api :( )
-      let matches: Match[] = []
-      for (const match of matchesId) {
-        matches.push(await this.riotGateway.getMatchById(match, regionRouter[region]))
-      }
+      let matches: Match[] = await Promise.all(matchesId.map(match => this.riotGateway.getMatchById(match, regionRouter[region])))
+      
+      // for (const match of matchesId) {
+      //   matches.push(await this.riotGateway.getMatchById(match, regionRouter[region]))
+      // }
       
       console.timeEnd("fetchingRiot");
       return {
