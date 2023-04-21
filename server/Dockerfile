@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:19-alpine
 
 EXPOSE 3000
 
@@ -11,5 +11,6 @@ RUN npm i
 COPY . .
 RUN npm run test
 RUN npm run build
+RUN npm run html
 
 CMD ["pm2-runtime", "./dist/app.js"]

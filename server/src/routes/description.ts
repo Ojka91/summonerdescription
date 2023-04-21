@@ -4,7 +4,7 @@ import express, { Request, Response, Router } from 'express';
 export const description: Router = express.Router();
 
 
-description.get('/free/description', async (req: Request, res: Response) => {
+description.get('/description/free', async (req: Request, res: Response) => {
     try {
         const generateDescriptionHandler = new GenerateFreeDescription()
         const response = await generateDescriptionHandler.generate(req.query.region as string ?? 'euw1', req.query.name as string ?? '', req.query.api_key as string ?? '')
