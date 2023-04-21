@@ -55,6 +55,7 @@
 </head>
 
 <body class="d-flex flex-column h-100" style="background-color: #f3f5f5b5;">
+
     <main style="margin-top: 10px;" id="app">
         <div class="container " id="summonerdescription"
             style="margin-top: 10px; max-width: 700px; width: auto; padding: 0, 15px;">
@@ -110,7 +111,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Get description</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal">Get description</button>
                             </form>
                         </div>
                     </div>
@@ -174,6 +175,8 @@
                 <p style="margin: 0;">Buy me a coffe</p>
             </div>
 
+
+
         </div>
     </main>
 
@@ -188,7 +191,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>There are a few reasons for premium tier exist:</p>
+                    <p>Premium costs 1$. There are a few reasons for premium tier exist:</p>
                     <ol>
                         <li>Mantaining servers and using openAI costs me money. With this tier you help me keep
                             this project running and avoid limitations.</li>
@@ -231,8 +234,33 @@
         </div>
     </div>
 
+    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Premium Tier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="paypal-button-container"></div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">No,
+                    thanks</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="./scripts/index.js"></script>
+        <!-- Replace "test" with your own sandbox Business account app client ID -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AQRz7CqdiUn8M5qqBFYO7EjDo4HE1cIU1rkSers9-7jposPv-l_rgN0EpkYCYtnCoLXQblAkkmB-f5-6&currency=USD"></script>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>
@@ -242,6 +270,57 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
+      <script>
+        paypal.Buttons({
+          // Order is created on the server and the order id is returned
+          createOrder() {
+            return fetch("/create-paypal-order", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              // use the "body" param to optionally pass additional order information
+              // like product skus and quantities
+              body: JSON.stringify({
+                cart: [
+                  {
+                    sku: "YOUR_PRODUCT_STOCK_KEEPING_UNIT",
+                    quantity: "YOUR_PRODUCT_QUANTITY",
+                  },
+                ],
+              }),
+            })
+            .then((response) => response.json())
+            .then((order) => order.id);
+          },
+          // Finalize the transaction on the server after payer approval
+          onApprove(data) {
+            return fetch("/capture-paypal-order", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                orderID: data.orderID
+              })
+            })
+            .then((response) => response.json())
+            .then((orderData) => {
+              // Successful capture! For dev/demo purposes:
+
+              console.log(orderData)
+            //   console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+            //   const transaction = orderData.purchase_units[0].payments.captures[0];
+            //   alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+
+              // When ready to go live, remove the alert and show a success message within this page. For example:
+              // const element = document.getElementById('paypal-button-container');
+              // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+              // Or go to another URL:  window.location.href = 'thank_you.html';
+            });
+          }
+        }).render('#paypal-button-container');
+      </script>
 </body>
 
 </html>
