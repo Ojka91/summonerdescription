@@ -1,10 +1,17 @@
 import { createFreePrompt } from "@/pkg/core/bootstrap/free_prompt_init";
 import { createGenerateSummonerPayloadHandler } from "@/pkg/core/bootstrap/generate_summoner_payload_init";
 import { createGetSummonerDataHandler } from "@/pkg/riot/bootstrap/get_summoner_data_init";
+import { RateLimiterSingleton } from "@/utils/rateLimiter";
 
 export default class GenerateFreeDescription {
+
     public async generate(region: string, name: string, openAiApiKey: string) {
         try {
+            if (!openAiApiKey) {
+                const rateLimiter = RateLimiterSingleton.getInstance()
+                rateLimiter.checkRateLimit()
+            }
+
             const getSummonerDataHandler = createGetSummonerDataHandler()
             const generateSummonerPayload = createGenerateSummonerPayloadHandler()
             const freePrompt = createFreePrompt()
@@ -27,4 +34,5 @@ export default class GenerateFreeDescription {
             throw new Error((error as Error).message)    
         }
     }   
+
 }

@@ -14,7 +14,7 @@ var app = new Vue({
       async getFreeDescription(){
         app.description = ""
         app.loading = true
-        fetch(`/description/free?region=${app.freeRegion}&name=${app.freeName}&api_key${app.freeApiKey}`, {
+        fetch(`/description/free?region=${app.freeRegion}&name=${app.freeName}&api_key=${app.freeApiKey}`, {
         })
       .then((res) => res.json())
       .then((json) => {
