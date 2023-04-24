@@ -152,15 +152,31 @@
                         <h5 class="mb-0">
                             <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
                                 aria-expanded="true" aria-controls="collapseOne">
-                                Premium
+                                Generate Description
                             </button>
                         </h5>
-                        <p type="button" class="btn btn-warning" data-toggle="modal" data-target="#premiumModal"
-                            style="margin: 0;">Why?</p>
+                        <p type="button" class="btn btn-warning" data-toggle="modal" data-target="#descriptionModal"
+                            style="margin: 0;">Info</p>
                     </div>
 
                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                        <div class="card-body">
+                        <div style="display: flex; justify-content: space-around; align-items: center;">
+                            <div>
+                                <input class="form-check-input" type="radio" id="Premium" name="drone" value="premium"
+                                    checked @click="setDescriptionsPremium()"><label class="form-check-label"
+                                    for="premium">Premium <a href="#" data-toggle="modal"
+                                        data-target="#premiumModal">Why?</a></label>
+
+                            </div>
+                            <div>
+                                <input class="form-check-input" type="radio" id="Free" name="drone" value="free"
+                                    @click="setDescriptionsFree()">
+                                <label class="form-check-label" for="free">Free <a href="#" data-toggle="modal"
+                                        data-target="#freeTierModal">Why?</a></label>
+
+                            </div>
+                        </div>
+                        <div class="card-body" v-if="descriptionChoosed === 'Premium'">
                             <form onsubmit="return false;" id="getDescriptionForm">
                                 <div class="mb-3">
                                     <label for="twitterUsername" class="form-label">Summoner name</label>
@@ -182,30 +198,16 @@
                                     data-target="#paymentModal">Get description</button>
                             </form>
                         </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingTwo"
-                        style="display: flex; flex-direction: row; justify-content: space-between;">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
-                                aria-expanded="false" aria-controls="collapseTwo">
-                                Free tier
-                            </button>
-                        </h5>
-                        <p type="button" class="btn btn-warning" data-toggle="modal" data-target="#freeTierModal"
-                            style="margin: 0;">Why?</p>
-                    </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                        <div class="card-body">
+
+                        <div class="card-body" v-if="descriptionChoosed === 'Free'">
                             <form onsubmit="return false;" id="getFreeDescriptionForm">
                                 <div class="mb-3">
-                                    <label  class="form-label">Summoner name</label>
+                                    <label class="form-label">Summoner name</label>
                                     <input type="text" class="form-control" v-model="freeName"
                                         placeholder="Enter a username">
                                 </div>
                                 <div class="mb-3">
-                                    <label  class="form-label">OpenAI API KEY <a
+                                    <label class="form-label">OpenAI API KEY <a
                                             href="https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key">how
                                             do I get this?</a> </label>
                                     <input type="text" class="form-control" v-model="freeApiKey"
@@ -218,12 +220,31 @@
                                             <label class="input-group-text" for="inputGroupSelect01">Region</label>
                                         </div>
                                         <select class="custom-select" id="inputGroupSelect01" v-model="freeRegion">
-                                            <option v-for="region in regions" v-bind:value="region"  id="freeRegion">{{region}}</option>
+                                            <option v-for="region in regions" v-bind:value="region" id="freeRegion">
+                                                {{region}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <button @click="getFreeDescription()" class="btn btn-primary">Get description</button>
                             </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo"
+                        style="display: flex; flex-direction: row; justify-content: space-between;">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                                aria-expanded="false" aria-controls="collapseTwo">
+                                Versus
+                            </button>
+                        </h5>
+                        <p type="button" class="btn btn-warning" data-toggle="modal" data-target="#versusModal"
+                            style="margin: 0;">Info</p>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <i>comming soon...</i>
                         </div>
                     </div>
                 </div>
@@ -295,7 +316,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>There is a limit of 100 free requests per day. The reason for that is that using my api key costs me money.</p>
+                    <p>There is a limit of 100 free requests per day. The reason for that is that using my api key costs
+                        me money.</p>
                     <p>You can still use your own openAI Api Key to perform as many requests as you like :)</p>
                     <p>I do not store your
                         api key credentials anywhere. I promise. </p>
@@ -319,7 +341,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Premium tier has a cost of 1$. 
+                    <p>Premium tier has a cost of 1$.
                         Each request to chatGPT and mantaining servers costs money. This will help me keeping it up.
                     </p>
                     <p>Please select your prefered payment method.</p>
@@ -329,6 +351,53 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">No,
                         thanks</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="descriptionModalLabel">Generate Description</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Want to know what an AI thinks of a player?</p>
+                    <p>We will get a summoner data, rank, last matches, performance... and send it to the best AI out
+                        there for it to generate a fun description of the summoner playstyle.</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Understood,
+                        thanks</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="versusModal" tabindex="-1" role="dialog" aria-labelledby="versusModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="versusModalLabel">Versus</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Want to know which player is better?</p>
+                    <p>We will analyze two players ingame data and get them be processed by an AI for it to decide which player is better.</p>
+                    <p>Want to test with your friends?</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Yes I want!</button>
                 </div>
             </div>
         </div>

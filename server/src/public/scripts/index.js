@@ -8,7 +8,8 @@ var app = new Vue({
       freeApiKey: "",
       freeRegion: "",
       premiumName: "",
-      premiumRegion: ""
+      premiumRegion: "",
+      descriptionChoosed: 'Premium'
     },
     methods: {
       async getFreeDescription(){
@@ -26,7 +27,14 @@ var app = new Vue({
 
       })
 
-      }
+      },
+
+      setDescriptionsFree() {
+        app.descriptionChoosed = 'Free'
+      },
+      setDescriptionsPremium() {
+        app.descriptionChoosed = 'Premium'
+      },
     },
     computed:{
 
