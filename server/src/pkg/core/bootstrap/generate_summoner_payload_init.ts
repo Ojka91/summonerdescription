@@ -1,6 +1,6 @@
-import GenerateSummonerPayload from "../application/generate_summoner_payload";
+import GenerateSummonerMetadata from "../application/generate_summoner_metadata";
 
-export const createGenerateSummonerPayloadHandler = (): GenerateSummonerPayload => {
+export const createGenerateSummonerMetadatadHandler = (): GenerateSummonerMetadata => {
 
-    return new GenerateSummonerPayload()
+    return new GenerateSummonerMetadata()
 }

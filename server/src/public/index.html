@@ -208,7 +208,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">OpenAI API KEY <a
-                                            href="https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key">how
+                                            href="https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key" target="_blank">how
                                             do I get this?</a> </label>
                                     <input type="text" class="form-control" v-model="freeApiKey"
                                         placeholder="I promise I do not store this anywhere (optional)">
@@ -252,9 +252,9 @@
             <!--   fin test-->
 
 
-            <div style="display:flex; justify-content: center; align-items: center;">
-
-                <div v-if="loading" class="lds-ellipsis">
+            <div style="display:flex; justify-content: center; align-items: center; flex-direction: column;" v-if="loading">
+                <div>Wait! This may take a while...</div>
+                <div  class="lds-ellipsis">
                     <div></div>
                     <div></div>
                     <div></div>
@@ -268,10 +268,7 @@
             <div class="mt-5 text-muted alert alert-warning " role="alert"
                 style="display: flex; justify-content: space-between;">
                 <p style="margin: 0;">Made with love ❤️</p>
-                <p style="margin: 0;">Buy me a coffe</p>
-            </div>
-
-
+                <p style="margin: 0;"><a href="https://ko-fi.com/oscarlucena" target="_blank">Buy me a coffe <img src="../public/img/kofi.png" alt="" style="height: 30px;"></a></p>
 
         </div>
     </main>
@@ -445,7 +442,7 @@
         paypal.Buttons({
             // Order is created on the server and the order id is returned
             createOrder() {
-                return fetch("/create-paypal-order", {
+                return fetch("/description/premium/order/create", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -462,7 +459,7 @@
                 $('#thanksModal').modal('show')
                 app.loading = true
 
-                return fetch("/capture-paypal-order", {
+                return fetch("/description/premium/order/process", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

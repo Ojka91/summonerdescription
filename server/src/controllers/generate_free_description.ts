@@ -1,33 +1,39 @@
+import { createChatGptHandler } from "@/pkg/chatgpt/bootstrap/chat_gpt_init";
 import { createFreePrompt } from "@/pkg/core/bootstrap/free_prompt_init";
-import { createGenerateSummonerPayloadHandler } from "@/pkg/core/bootstrap/generate_summoner_payload_init";
+import { createGenerateSummonerMetadatadHandler } from "@/pkg/core/bootstrap/generate_summoner_payload_init";
 import { createGetSummonerDataHandler } from "@/pkg/riot/bootstrap/get_summoner_data_init";
+import { SummonerData } from "@/pkg/riot/domain/summoner_data";
 import { RateLimiterSingleton } from "@/utils/rateLimiter";
 
 export default class GenerateFreeDescription {
 
     public async generate(region: string, name: string, openAiApiKey: string) {
         try {
+            if (!name) throw new Error('Summoner name is mandatory')
+            if (!region) throw new Error('Select a region first')
             if (!openAiApiKey) {
                 const rateLimiter = RateLimiterSingleton.getInstance()
                 rateLimiter.checkRateLimit()
             }
 
             const getSummonerDataHandler = createGetSummonerDataHandler()
-            const generateSummonerPayload = createGenerateSummonerPayloadHandler()
+            const generateSummonerMetadata = createGenerateSummonerMetadatadHandler()
             const freePrompt = createFreePrompt()
+            const chatGpt = createChatGptHandler()
+            
 
             // Get raw data from riot api
-            const summonerData = await getSummonerDataHandler.handle(region, name)
+            const summonerData: SummonerData = await getSummonerDataHandler.handle(region, name)
 
             // Create payload with key data to be part of gpt prompt
-            const summonerPrompt = generateSummonerPayload.generate(summonerData, name)
+            const metadata = generateSummonerMetadata.getForDescription(summonerData, name)
 
             // Get prompt for free tier
-            const prompt = freePrompt.get()
+            const prompt = freePrompt.getDescriptionPrompt()
 
             
             //console.log(summonerPrompt)
-            return summonerPrompt
+            return await chatGpt.chat(`${prompt} ${metadata}`, openAiApiKey)
 
 
         } catch (error) {

@@ -7,10 +7,10 @@ import { SummonerData } from "@/pkg/riot/domain/summoner_data";
  * Creates payload with summoner key data.
  * This data will be used by chat gpt to process our prompt
  */
-export default class GenerateSummonerPayload {
+export default class GenerateSummonerMetadata {
     constructor(){}
 
-  public generate (summonerData: SummonerData, summonerName: string): string {
+  public getForDescription (summonerData: SummonerData, summonerName: string): string {
     try {
         const rank = this.getRankSoloQueue(summonerData.leagues)
         const isInHotStreak = this.isInHotStreak(summonerData.leagues)
@@ -19,7 +19,6 @@ export default class GenerateSummonerPayload {
             const gameMode = this.getGameMode(match)
             gamesInfo.push(`Player played ${gameMode} game type. ${this.getPlayerInfoOfTheGame(match, summonerName)}`)
         }
-
       return JSON.stringify({
         playerRank: rank,
         isInHotStreak,
