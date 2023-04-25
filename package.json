@@ -12,7 +12,8 @@
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "test": "jest --coverage",
     "html": "copyfiles --up 1 src/public/*.html src/public/styles/*.css src/public/scripts/*.js dist",
-    "start": "npm run build && npm run html && dotenv -e .env -- node dist/app.js",
+    "riot": "copyfiles riot.txt dist",
+    "start": "npm run build && npm run html && npm run riot && dotenv -e .env -- node dist/app.js",
     "dev": "nodemon src/app.ts"
   },
   "keywords": [],

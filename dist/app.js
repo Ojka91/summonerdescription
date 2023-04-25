@@ -46,6 +46,9 @@ exports.app.get('/health', async (_req, res) => {
 exports.app.get('/', (_, res) => {
     res.sendFile(path_1.default.join(__dirname, './index.html'));
 });
+exports.app.get('//riot.txt', (_, res) => {
+    res.sendFile(path_1.default.join(__dirname, './riot.txt'));
+});
 exports.app.listen(process.env.PORT || 3000, () => {
     console.log('Server listening on port 3000');
 });
