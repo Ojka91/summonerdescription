@@ -1,2 +1,0 @@
-LoLmary
-The summoner summary
