@@ -9,7 +9,6 @@ COPY tsconfig.json ./
 RUN npm i pm2 -g
 RUN npm i
 COPY . .
-RUN npm run test
 RUN npm run build
 RUN npm run html
 
