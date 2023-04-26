@@ -295,8 +295,6 @@
                         <li>Using an AI comes with a high cost. Studies estimate a short conversation costs 0,5l
                             of water. I will donate 10% to plant trees.</li>
                     </ol>
-                    <u>Benefits of using this plan:</u> <br>
-                    <p>I will be adding more data and more ways to analize your data on this tier.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Understood,
@@ -430,7 +428,7 @@
     <script src="./scripts/index.js"></script>
     <!-- Replace "test" with your own sandbox Business account app client ID -->
     <script
-        src="https://www.paypal.com/sdk/js?client-id=AQRz7CqdiUn8M5qqBFYO7EjDo4HE1cIU1rkSers9-7jposPv-l_rgN0EpkYCYtnCoLXQblAkkmB-f5-6&currency=USD&disable-funding=sofort">
+        src="https://www.paypal.com/sdk/js?client-id=Ad5YLQJXz8MZKLJCBS_mLoBo3R-owInxvQEDQJClKkgEG0iwoYiK7KmONmdZmF4PVaRmgTwo8uyeWp7e&currency=USD&disable-funding=sofort">
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -469,7 +467,7 @@
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            orderID: data.orderID,
+                            orderId: data.orderID,
                             summonerName: app.premiumName,
                             region: app.premiumRegion
                         })

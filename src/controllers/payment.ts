@@ -5,12 +5,12 @@ export default class Payment {
 
     public async createOrder() {
         const handler = createCreatePaypalOrder()
-        return handler.createOrder()
+        return await handler.createOrder()
     }
 
     public async capturePayment(orderId: string) {
         const handler = createCapturePaymentHandler()
-        return handler.capturePayment(orderId)
+        return await handler.capturePayment(orderId)
     }
 
 }
