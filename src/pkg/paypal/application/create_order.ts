@@ -5,7 +5,7 @@ export default class CreatePaypalOrder {
         public paypalGateway: PaypalGatewayInterface
     ) {}
 
-    // use the orders api to capture payment for an order
+    // create a paypal order (not capturing funds yet)
     public async createOrder() {
        return await this.paypalGateway.createOrder();
     }

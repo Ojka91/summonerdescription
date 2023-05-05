@@ -4,28 +4,30 @@ import { createGenerateSummonerMetadatadHandler } from "@/pkg/core/bootstrap/gen
 import { createGetSummonerDataHandler } from "@/pkg/riot/bootstrap/get_summoner_data_init";
 import { SummonerData } from "@/pkg/riot/domain/summoner_data";
 
-export default class GeneratePremiumDescription {
-    public async generate(region: string, name: string) {
+export default class GeneratePremiumVersus {
+    public async generate(region1: string, name1: string, region2: string, name2: string) {
         try {
-            if (!name) throw new Error('Summoner name is mandatory')
-            if (!region) throw new Error('Select a region first')
+            if (!name1 || !name2) throw new Error('Both summoner names are mandatory')
+            if (!region1 || !region2) throw new Error('Both regions are mandatory')
 
             const getSummonerDataHandler = createGetSummonerDataHandler()
             const generateSummonerMetadata = createGenerateSummonerMetadatadHandler()
             const freePrompt = createFreePrompt()
             const chatGpt = createChatGptHandler()
-
+            
 
             // Get raw data from riot api
-            const summonerData: SummonerData = await getSummonerDataHandler.handle(region, name)
+            const summonerData1: SummonerData = await getSummonerDataHandler.handle(region1, name1)
+            const summonerData2: SummonerData = await getSummonerDataHandler.handle(region2, name2)
 
             // Create payload with key data to be part of gpt prompt
-            const metadata = generateSummonerMetadata.getForDescription(summonerData, name)
+            const metadata1 = generateSummonerMetadata.getForDescription(summonerData1, name1)
+            const metadata2 = generateSummonerMetadata.getForDescription(summonerData2, name2)
 
             // Get prompt for free tier
-            const prompt = freePrompt.getDescriptionPrompt()
+            const prompt = freePrompt.getVersusPrompt()
 
-            return await chatGpt.chat(`${prompt} ${metadata}`)
+            return await chatGpt.chat(`${prompt} ${metadata1} ${metadata2}`)
 
 
         } catch (error) {

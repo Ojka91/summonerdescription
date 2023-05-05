@@ -1,8 +1,6 @@
 import { logger } from "@/utils/logger";
-import { AxiosInstance } from "axios";
 import { Configuration, OpenAIApi } from "openai";
 import ChatGptGatewayInterface from "../application/chat_gpt_gateway";
-
 
 
 export class ChatGptGateway implements ChatGptGatewayInterface {

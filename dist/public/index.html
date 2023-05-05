@@ -179,7 +179,7 @@
                         <div class="card-body" v-if="descriptionChoosed === 'Premium'">
                             <form onsubmit="return false;" id="getDescriptionForm">
                                 <div class="mb-3">
-                                    <label for="twitterUsername" class="form-label">Summoner name</label>
+                                    <label class="form-label">Summoner name</label>
                                     <input type="text" class="form-control" v-model="premiumName"
                                         placeholder="Enter a username">
                                 </div>
@@ -275,6 +275,9 @@
             <p>Inspired by <a href="https://abbrevia.me" target="_blank">abbrevia.me</a></p>
             <p>Contact: summonerdescription@gmail.com</p>
         </footer>
+        <div style="color: #787878; font-size: small;">
+            <p>*Summoner Description isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+        </div>
     </main>
 
     <div class="modal fade" id="premiumModal" tabindex="-1" role="dialog" aria-labelledby="premiumModalLabel"
@@ -428,7 +431,7 @@
     <script src="./scripts/index.js"></script>
     <!-- Replace "test" with your own sandbox Business account app client ID -->
     <script
-        src="https://www.paypal.com/sdk/js?client-id=Ad5YLQJXz8MZKLJCBS_mLoBo3R-owInxvQEDQJClKkgEG0iwoYiK7KmONmdZmF4PVaRmgTwo8uyeWp7e&currency=USD&disable-funding=sofort">
+        src="https://www.paypal.com/sdk/js?client-id=AUzOCutaIQfwhJgUY9kYJXm7mCTNO11z1MaFXMU99s2aUNg3WtgMgCRj8pH1UlpT6e8rahmkSsZCB5rS&currency=USD&disable-funding=sofort">
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

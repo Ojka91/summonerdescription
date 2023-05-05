@@ -5,13 +5,13 @@ const free_prompt_init_1 = require("../pkg/core/bootstrap/free_prompt_init");
 const generate_summoner_payload_init_1 = require("../pkg/core/bootstrap/generate_summoner_payload_init");
 const get_summoner_data_init_1 = require("../pkg/riot/bootstrap/get_summoner_data_init");
 const rateLimiter_1 = require("../utils/rateLimiter");
-class GenerateFreeDescription {
-    async generate(region, name, openAiApiKey) {
+class GenerateFreeVersus {
+    async generate(region1, name1, region2, name2, openAiApiKey) {
         try {
-            if (!name)
-                throw new Error('Summoner name is mandatory');
-            if (!region)
-                throw new Error('Select a region first');
+            if (!name1 || !name2)
+                throw new Error('Both summoner names are mandatory');
+            if (!region1 || !region2)
+                throw new Error('Both regions are mandatory');
             if (!openAiApiKey) {
                 const rateLimiter = rateLimiter_1.RateLimiterSingleton.getInstance();
                 rateLimiter.checkRateLimit();
@@ -21,17 +21,19 @@ class GenerateFreeDescription {
             const freePrompt = (0, free_prompt_init_1.createFreePrompt)();
             const chatGpt = (0, chat_gpt_init_1.createChatGptHandler)();
             // Get raw data from riot api
-            const summonerData = await getSummonerDataHandler.handle(region, name);
+            const summonerData1 = await getSummonerDataHandler.handle(region1, name1);
+            const summonerData2 = await getSummonerDataHandler.handle(region2, name2);
             // Create payload with key data to be part of gpt prompt
-            const metadata = generateSummonerMetadata.getForDescription(summonerData, name);
+            const metadata1 = generateSummonerMetadata.getForDescription(summonerData1, name1);
+            const metadata2 = generateSummonerMetadata.getForDescription(summonerData2, name2);
             // Get prompt for free tier
-            const prompt = freePrompt.getDescriptionPrompt();
-            return await chatGpt.chat(`${prompt} ${metadata}`, openAiApiKey);
+            const prompt = freePrompt.getVersusPrompt();
+            return await chatGpt.chat(`${prompt} ${metadata1} ${metadata2}`, openAiApiKey);
         }
         catch (error) {
             throw new Error(error.message);
         }
     }
 }
-exports.default = GenerateFreeDescription;
-//# sourceMappingURL=generate_free_description.js.map
+exports.default = GenerateFreeVersus;
+//# sourceMappingURL=generate_free_versus.js.map
