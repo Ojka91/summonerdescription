@@ -151,7 +151,7 @@
                         style="display: flex; flex-direction: row; justify-content: space-between;">
                         <h5 class="mb-0">
                             <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
-                                aria-expanded="true" aria-controls="collapseOne">
+                                aria-expanded="true" aria-controls="collapseOne" @click="setDescription()">
                                 Generate Description
                             </button>
                         </h5>
@@ -208,7 +208,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">OpenAI API KEY <a
-                                            href="https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key" target="_blank">how
+                                            href="https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key"
+                                            target="_blank">how
                                             do I get this?</a> </label>
                                     <input type="text" class="form-control" v-model="freeApiKey"
                                         placeholder="I promise I do not store this anywhere (optional)">
@@ -235,7 +236,7 @@
                         style="display: flex; flex-direction: row; justify-content: space-between;">
                         <h5 class="mb-0">
                             <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
-                                aria-expanded="false" aria-controls="collapseTwo">
+                                aria-expanded="false" aria-controls="collapseTwo" @click="setVersus()">
                                 Versus
                             </button>
                         </h5>
@@ -244,7 +245,115 @@
                     </div>
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                         <div class="card-body">
-                            <i>comming soon...</i>
+
+                            <div style="display: flex; justify-content: space-around; align-items: center;">
+                                <div>
+                                    <input class="form-check-input" type="radio" id="VersusPremium" name="versus"
+                                        value="versuspremium" checked @click="setVersusPremium()"><label
+                                        class="form-check-label" for="premium">Premium <a href="#" data-toggle="modal"
+                                            data-target="#premiumModal">Why?</a></label>
+
+                                </div>
+                                <div>
+                                    <input class="form-check-input" type="radio" id="VersusFree" name="versus"
+                                        value="versusfree" @click="setVersusFree()">
+                                    <label class="form-check-label" for="free">Free <a href="#" data-toggle="modal"
+                                            data-target="#freeTierModal">Why?</a></label>
+
+                                </div>
+                            </div>
+                            <div class="card-body" v-if="versusChoosed === 'Premium'">
+                                <form onsubmit="return false;" id="getVersusForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">Summoner 1</label>
+                                        <input type="text" class="form-control" v-model="premiumVersusName1"
+                                            placeholder="Enter a username">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">Region</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect01"
+                                                v-model="premiumVersusRegion1">
+                                                <option v-for="region in regions" :value="region">{{region}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Summoner 2</label>
+                                        <input type="text" class="form-control" v-model="premiumVersusName2"
+                                            placeholder="Enter a username">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">Region</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect01"
+                                                v-model="premiumVersusRegion2">
+                                                <option v-for="region in regions" :value="region">{{region}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#paymentModal">Get results</button>
+                                </form>
+                            </div>
+
+                            <div class="card-body" v-if="versusChoosed === 'Free'">
+                                <form onsubmit="return false;" id="getFreeVersusForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">Summoner 1</label>
+                                        <input type="text" class="form-control" v-model="freeVersusName1"
+                                            placeholder="Enter a username">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">Region</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect01" v-model="freeVersusRegion1">
+                                                <option v-for="region in regions" v-bind:value="region" id="freeVersusRegion1">
+                                                    {{region}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Summoner 2</label>
+                                        <input type="text" class="form-control" v-model="freeVersusName2"
+                                            placeholder="Enter a username">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">Region</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect01" v-model="freeVersusRegion2">
+                                                <option v-for="region in regions" v-bind:value="region" id="freeVersusRegion2">
+                                                    {{region}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">OpenAI API KEY <a
+                                                href="https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key"
+                                                target="_blank">how
+                                                do I get this?</a> </label>
+                                        <input type="text" class="form-control" v-model="freeVersusApiKey"
+                                            placeholder="I promise I do not store this anywhere (optional)">
+                                    </div>
+
+
+                                    <button @click="getFreeVersus()" class="btn btn-primary">Get
+                                        description</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -252,9 +361,10 @@
             <!--   fin test-->
 
 
-            <div style="display:flex; justify-content: center; align-items: center; flex-direction: column;" v-if="loading">
+            <div style="display:flex; justify-content: center; align-items: center; flex-direction: column;"
+                v-if="loading">
                 <div>Wait! This may take a while...</div>
-                <div  class="lds-ellipsis">
+                <div class="lds-ellipsis">
                     <div></div>
                     <div></div>
                     <div></div>
@@ -268,16 +378,20 @@
             <div class="mt-5 text-muted alert alert-warning " role="alert"
                 style="display: flex; justify-content: space-between;">
                 <p style="margin: 0;">Made with love ❤️</p>
-                <p style="margin: 0;"><a href="https://ko-fi.com/oscarlucena" target="_blank">Buy me a coffe <img src="../public/img/kofi.png" alt="" style="height: 30px;"></a></p>
+                <p style="margin: 0;"><a href="https://ko-fi.com/oscarlucena" target="_blank">Buy me a coffe <img
+                            src="../public/img/kofi.png" alt="" style="height: 30px;"></a></p>
 
-        </div>
-        <footer style="display: flex; justify-content: space-between; flex-direction: row; font-size: small; color: #787878;">
-            <p>Inspired by <a href="https://abbrevia.me" target="_blank">abbrevia.me</a></p>
-            <p>Contact: summonerdescription@gmail.com</p>
-        </footer>
-        <div style="color: #787878; font-size: small;">
-            <p>*Summoner Description isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
-        </div>
+            </div>
+            <footer
+                style="display: flex; justify-content: space-between; flex-direction: row; font-size: small; color: #787878;">
+                <p>Inspired by <a href="https://abbrevia.me" target="_blank">abbrevia.me</a></p>
+                <p>Contact: summonerdescription@gmail.com</p>
+            </footer>
+            <div style="color: #787878; font-size: small;">
+                <p>*Summoner Description isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot
+                    Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and
+                    all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+            </div>
     </main>
 
     <div class="modal fade" id="premiumModal" tabindex="-1" role="dialog" aria-labelledby="premiumModalLabel"
@@ -394,7 +508,8 @@
                 </div>
                 <div class="modal-body">
                     <p>Want to know which player is better?</p>
-                    <p>We will analyze two players ingame data and get them be processed by an AI for it to decide which player is better.</p>
+                    <p>We will analyze two players ingame data and get them be processed by an AI for it to decide which
+                        player is better.</p>
                     <p>Want to test with your friends?</p>
 
                 </div>
@@ -431,7 +546,7 @@
     <script src="./scripts/index.js"></script>
     <!-- Replace "test" with your own sandbox Business account app client ID -->
     <script
-        src="https://www.paypal.com/sdk/js?client-id=AUzOCutaIQfwhJgUY9kYJXm7mCTNO11z1MaFXMU99s2aUNg3WtgMgCRj8pH1UlpT6e8rahmkSsZCB5rS&currency=USD&disable-funding=sofort">
+        src="https://www.paypal.com/sdk/js?client-id=Ad5YLQJXz8MZKLJCBS_mLoBo3R-owInxvQEDQJClKkgEG0iwoYiK7KmONmdZmF4PVaRmgTwo8uyeWp7e&currency=USD&disable-funding=sofort">
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -447,7 +562,7 @@
         paypal.Buttons({
             // Order is created on the server and the order id is returned
             createOrder() {
-                return fetch("/description/premium/order/create", {
+                return fetch(`/${app.oppenedModal}/premium/order/create`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -464,7 +579,8 @@
                 $('#thanksModal').modal('show')
                 app.loading = true
 
-                return fetch("/description/premium/order/process", {
+                if (app.oppenedModal === "description") {
+                    return fetch(`/${app.oppenedModal}/premium/order/process`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -481,6 +597,27 @@
                         app.loading = false
 
                     });
+                } else if (app.oppenedModal === "versus"){
+                    return fetch(`/${app.oppenedModal}/premium/order/process`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            orderId: data.orderID,
+                            summonerName1: app.premiumVersusName1,
+                            region1: app.premiumVersusRegion1,
+                            summonerName2: app.premiumVersusName2,
+                            region2: app.premiumVersusRegion2
+                        })
+                    })
+                    .then((response) => response.json())
+                    .then((orderData) => {
+                        app.description = JSON.stringify(orderData)
+                        app.loading = false
+
+                    });
+                }
             }
         }).render('#paypal-button-container');
     </script>

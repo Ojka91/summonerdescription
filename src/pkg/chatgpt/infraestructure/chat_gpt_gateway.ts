@@ -18,7 +18,6 @@ export class ChatGptGateway implements ChatGptGatewayInterface {
         this.openAi = new OpenAIApi(new Configuration({
             apiKey: providedApiKey ? providedApiKey : this.apiKey
         }))
-        console.time('chatGpt')
         try {
             const response =  await this.openAi.createChatCompletion({
                 model: 'gpt-3.5-turbo',
@@ -31,7 +30,6 @@ export class ChatGptGateway implements ChatGptGatewayInterface {
                 temperature: 0.7,
                 max_tokens: 512
             })
-            console.timeEnd('chatGpt')
 
             return response?.data?.choices[0]?.message?.content ?? 'Hmm a problem occured. Please, contact support'
         } catch (error: any) {
