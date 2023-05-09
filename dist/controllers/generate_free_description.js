@@ -24,6 +24,7 @@ class GenerateFreeDescription {
             const summonerData = await getSummonerDataHandler.handle(region, name);
             // Create payload with key data to be part of gpt prompt
             const metadata = generateSummonerMetadata.getForDescription(summonerData, name);
+            console.log(metadata);
             // Get prompt for free tier
             const prompt = freePrompt.getDescriptionPrompt();
             return await chatGpt.chat(`${prompt} ${metadata}`, openAiApiKey);
