@@ -3,18 +3,12 @@ import { createFreePrompt } from "@/pkg/core/bootstrap/free_prompt_init";
 import { createGenerateSummonerMetadatadHandler } from "@/pkg/core/bootstrap/generate_summoner_payload_init";
 import { createGetSummonerDataHandler } from "@/pkg/riot/bootstrap/get_summoner_data_init";
 import { SummonerData } from "@/pkg/riot/domain/summoner_data";
-import { RateLimiterSingleton } from "@/utils/rateLimiter";
 
-export default class GenerateFreeDescription {
-
-    public async generate(region: string, name: string, openAiApiKey: string) {
+export default class GeneratePremiumVersus {
+    public async generate(region1: string, name1: string, region2: string, name2: string) {
         try {
-            if (!name) throw new Error('Summoner name is mandatory')
-            if (!region) throw new Error('Select a region first')
-            if (!openAiApiKey) {
-                const rateLimiter = RateLimiterSingleton.getInstance()
-                rateLimiter.checkRateLimit()
-            }
+            if (!name1 || !name2) throw new Error('Both summoner names are mandatory')
+            if (!region1 || !region2) throw new Error('Both regions are mandatory')
 
             const getSummonerDataHandler = createGetSummonerDataHandler()
             const generateSummonerMetadata = createGenerateSummonerMetadatadHandler()
@@ -23,20 +17,21 @@ export default class GenerateFreeDescription {
             
 
             // Get raw data from riot api
-            const summonerData: SummonerData = await getSummonerDataHandler.handle(region, name)
+            const summonerData1: SummonerData = await getSummonerDataHandler.handle(region1, name1)
+            const summonerData2: SummonerData = await getSummonerDataHandler.handle(region2, name2)
 
             // Create payload with key data to be part of gpt prompt
-            const metadata = generateSummonerMetadata.getForDescription(summonerData, name)
-            console.log(metadata)
+            const metadata1 = generateSummonerMetadata.getForDescription(summonerData1, name1)
+            const metadata2 = generateSummonerMetadata.getForDescription(summonerData2, name2)
 
             // Get prompt for free tier
-            const prompt = freePrompt.getDescriptionPrompt()
+            const prompt = freePrompt.getVersusPrompt()
 
-            return await chatGpt.chat(`${prompt} ${metadata}`, openAiApiKey)
+            return await chatGpt.chat(`${prompt} ${metadata1} ${metadata2}`)
+
 
         } catch (error) {
             throw new Error((error as Error).message)    
         }
     }   
-
 }

@@ -1,3 +1,7 @@
+/**
+ * This class mantains a free rate limit of MAX_REQUESTS_PER_DAY using singleton pattern
+ * 
+ */
 class RateLimiter {
     
     private CURRENT_NUM_REQUEST = {

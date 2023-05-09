@@ -21,7 +21,6 @@ class GeneratePremiumDescription {
             const metadata = generateSummonerMetadata.getForDescription(summonerData, name);
             // Get prompt for free tier
             const prompt = freePrompt.getDescriptionPrompt();
-            //console.log(summonerPrompt)
             return await chatGpt.chat(`${prompt} ${metadata}`);
         }
         catch (error) {

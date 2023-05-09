@@ -4,7 +4,7 @@ class CreatePaypalOrder {
     constructor(paypalGateway) {
         this.paypalGateway = paypalGateway;
     }
-    // use the orders api to capture payment for an order
+    // create a paypal order (not capturing funds yet)
     async createOrder() {
         return await this.paypalGateway.createOrder();
     }

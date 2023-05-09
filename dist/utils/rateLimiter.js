@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RateLimiterSingleton = void 0;
+/**
+ * This class mantains a free rate limit of MAX_REQUESTS_PER_DAY using singleton pattern
+ *
+ */
 class RateLimiter {
     constructor() {
         this.CURRENT_NUM_REQUEST = {

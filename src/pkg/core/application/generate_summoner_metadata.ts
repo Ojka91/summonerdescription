@@ -21,6 +21,7 @@ export default class GenerateSummonerMetadata {
         }
       return JSON.stringify({
         playerRank: rank,
+        name: summonerName,
         isInHotStreak,
         gamesInfo
       })

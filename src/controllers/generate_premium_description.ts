@@ -25,8 +25,6 @@ export default class GeneratePremiumDescription {
             // Get prompt for free tier
             const prompt = freePrompt.getDescriptionPrompt()
 
-            
-            //console.log(summonerPrompt)
             return await chatGpt.chat(`${prompt} ${metadata}`)
 
 
