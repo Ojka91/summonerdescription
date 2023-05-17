@@ -1,5 +1,5 @@
 import { createChatGptHandler } from "@/pkg/chatgpt/bootstrap/chat_gpt_init";
-import { createFreePrompt } from "@/pkg/core/bootstrap/free_prompt_init";
+import { createPrompt } from "@/pkg/core/bootstrap/prompt_init";
 import { createGenerateSummonerMetadatadHandler } from "@/pkg/core/bootstrap/generate_summoner_payload_init";
 import { createGetSummonerDataHandler } from "@/pkg/riot/bootstrap/get_summoner_data_init";
 import { SummonerData } from "@/pkg/riot/domain/summoner_data";
@@ -12,7 +12,7 @@ export default class GeneratePremiumVersus {
 
             const getSummonerDataHandler = createGetSummonerDataHandler()
             const generateSummonerMetadata = createGenerateSummonerMetadatadHandler()
-            const freePrompt = createFreePrompt()
+            const prompt = createPrompt()
             const chatGpt = createChatGptHandler()
             
 
@@ -24,10 +24,10 @@ export default class GeneratePremiumVersus {
             const metadata1 = generateSummonerMetadata.getForDescription(summonerData1, name1)
             const metadata2 = generateSummonerMetadata.getForDescription(summonerData2, name2)
 
-            // Get prompt for free tier
-            const prompt = freePrompt.getVersusPrompt()
+            // Get prompt for versus
+            const versusPrompt = prompt.getVersusPrompt()
 
-            return await chatGpt.chat(`${prompt} ${metadata1} ${metadata2}`)
+            return await chatGpt.chat(`${versusPrompt} ${metadata1} ${metadata2}`)
 
 
         } catch (error) {

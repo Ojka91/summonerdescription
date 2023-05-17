@@ -3,7 +3,7 @@
 /**
  * This is the prompt generator that will be used for free
  */
-export default class FreePrompt {
+export default class Prompt {
     constructor(){}
 
   public getDescriptionPrompt (): string {

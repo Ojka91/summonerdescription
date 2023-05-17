@@ -1,5 +1,5 @@
 import { createChatGptHandler } from "@/pkg/chatgpt/bootstrap/chat_gpt_init";
-import { createFreePrompt } from "@/pkg/core/bootstrap/free_prompt_init";
+import { createPrompt } from "@/pkg/core/bootstrap/prompt_init";
 import { createGenerateSummonerMetadatadHandler } from "@/pkg/core/bootstrap/generate_summoner_payload_init";
 import { createGetSummonerDataHandler } from "@/pkg/riot/bootstrap/get_summoner_data_init";
 import { SummonerData } from "@/pkg/riot/domain/summoner_data";
@@ -18,7 +18,7 @@ export default class GenerateFreeDescription {
 
             const getSummonerDataHandler = createGetSummonerDataHandler()
             const generateSummonerMetadata = createGenerateSummonerMetadatadHandler()
-            const freePrompt = createFreePrompt()
+            const prompt = createPrompt()
             const chatGpt = createChatGptHandler()
             
 
@@ -28,10 +28,10 @@ export default class GenerateFreeDescription {
             // Create payload with key data to be part of gpt prompt
             const metadata = generateSummonerMetadata.getForDescription(summonerData, name)
 
-            // Get prompt for free tier
-            const prompt = freePrompt.getDescriptionPrompt()
+            // Get prompt for description
+            const descriptionPrompt = prompt.getDescriptionPrompt()
 
-            return await chatGpt.chat(`${prompt} ${metadata}`, openAiApiKey)
+            return await chatGpt.chat(`${descriptionPrompt} ${metadata}`, openAiApiKey)
 
         } catch (error) {
             throw new Error((error as Error).message)    
