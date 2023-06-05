@@ -11,7 +11,7 @@
     "docker:run": "npm run docker:build && docker run --env-file='.env-dev' -p 3000:3000 element-backend",
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "test": "jest --coverage",
-    "html": "copyfiles --up 1 src/public/*.html src/public/styles/*.css src/public/scripts/*.js dist",
+    "html": "copyfiles --up 1 src/public/*.html src/public/styles/*.css src/public/scripts/*.js src/public/img/*.png src/public/img/*.jpg dist",
     "riot": "copyfiles riot.txt dist",
     "start": "npm run build && npm run html && npm run riot && dotenv -e .env -- node dist/app.js",
     "dev": "nodemon src/app.ts"

@@ -28,7 +28,7 @@ class GenerateSummonerMetadata {
     }
     getRankSoloQueue(leagues) {
         for (const league of leagues) {
-            if (league.queueType = 'RANKED_SOLO_5x5') {
+            if (league.queueType === 'RANKED_SOLO_5x5') {
                 return `Player is rank ${league.tier} ${league.rank} with ${league.wins} wins and ${league.losses} losses`;
             }
         }

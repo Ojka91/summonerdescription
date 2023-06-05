@@ -6,9 +6,17 @@ install:
 run:
 	npm start
 
-# Build and run the dev docker image
+# Run the application dev mode
+dev:
+	npm run dev
+
+# Build docker image
+docker-build:	
+	docker build -t summoner-description .
+
+# Run docker
 docker-run:	
-	docker build -t summoner-description . && docker run --env-file='.env-dev' -p 3000:3000 summoner-description
+	docker run --env-file='.env' -p 3000:3000 summoner-description
 
 
 
