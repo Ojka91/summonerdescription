@@ -1,4 +1,5 @@
 import GenerateFreeCreate from '@/controllers/generate_free_create';
+import GeneratePremiumCreate from '@/controllers/generate_premium_create';
 import GeneratePremiumVersus from '@/controllers/generate_premium_versus';
 import Payment from '@/controllers/payment';
 import { logger } from '@/utils/logger';
@@ -31,17 +32,17 @@ create.post("/create/premium/order/process", async (req, res) => {
     try {
   
       const {
-        orderId, summonerName1, region1, summonerName2, region2
+        orderId, summonerName, region
       } = req.body;
       
       const paymentController = new Payment()
-      const generateversusHandler = new GeneratePremiumVersus()
+      const generateCreateHandler = new GeneratePremiumCreate()
   
       // 1, Capture payment
       await paymentController.capturePayment(orderId);
     
       // 2, After capturing payment, if succeed, we generate versus and send it back
-      const response = await generateversusHandler.generate(region1, summonerName1, region2, summonerName2)
+      const response = await generateCreateHandler.generate(region, summonerName)
   
       res.json(response);
     } catch (error) {

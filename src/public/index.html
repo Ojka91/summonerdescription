@@ -371,7 +371,7 @@
                         <h5 class="mb-0">
                             <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
                                 aria-expanded="false" aria-controls="collapseThree" @click="setCreate()">
-                                Create <span style="text-shadow: rgb(255 255 255) 0px 0px 2px, rgb(225 45 255) 0px 0px 5px;
+                                Create new champion! <span style="text-shadow: rgb(255 255 255) 0px 0px 2px, rgb(225 45 255) 0px 0px 5px;
                                 color: rgb(47, 107, 235);">New!</span>
                             </button>
                         </h5>
@@ -619,6 +619,29 @@
         </div>
     </div>
 
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Create</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Want to know what would you be if you were a champ based on your playstyle?</p>
+                    <p>We will analyze your ingame data and an AI will create a League Of Legends new champion, with spells and picture included :)</p>
+                    <p>Want to try it?</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Yes I want!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="thanksModal" tabindex="-1" role="dialog" aria-labelledby="thanksModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -677,6 +700,8 @@
                 $('#paymentModal').modal('hide')
                 $('#thanksModal').modal('show')
                 app.loading = true
+                app.image = ''
+                app.description = ''
 
                 if (app.oppenedModal === "description") {
                     return fetch(`/${app.oppenedModal}/premium/order/process`, {
@@ -713,6 +738,25 @@
                     .then((response) => response.json())
                     .then((orderData) => {
                         app.description = JSON.stringify(orderData)
+                        app.loading = false
+
+                    });
+                } else if (app.oppenedModal === "create"){
+                    return fetch(`/${app.oppenedModal}/premium/order/process`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            orderId: data.orderID,
+                            summonerName: app.premiumCreateName,
+                            region: app.premiumCreateRegion
+                        })
+                    })
+                    .then((response) => response.json())
+                    .then((orderData) => {
+                        app.description = orderData.champDescription
+                        app.image = orderData.image
                         app.loading = false
 
                     });
