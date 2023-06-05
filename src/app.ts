@@ -4,7 +4,6 @@ import { routes } from '@/routes';
 import * as dotenv from 'dotenv'
 import path from 'path';
 export const app: Express = express();
-//import { User } from './controllers/user';
 dotenv.config({ path: `.env${process.env.NODE_ENV}` });
 
 const publicPath = path.resolve(__dirname, './public')

@@ -3,7 +3,7 @@ import { createFreePrompt } from "@/pkg/core/bootstrap/free_prompt_init";
 import { createGenerateSummonerMetadatadHandler } from "@/pkg/core/bootstrap/generate_summoner_payload_init";
 import { createGetSummonerDataHandler } from "@/pkg/riot/bootstrap/get_summoner_data_init";
 import { SummonerData } from "@/pkg/riot/domain/summoner_data";
-import { RateLimiterSingleton } from "@/utils/rateLimiter";
+import { RateLimiterSingleton } from "@/utils/rate_limiter";
 
 export default class GenerateFreeVersus {
 

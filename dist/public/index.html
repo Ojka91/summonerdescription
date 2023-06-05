@@ -237,7 +237,8 @@
                         <h5 class="mb-0">
                             <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
                                 aria-expanded="false" aria-controls="collapseTwo" @click="setVersus()">
-                                Versus
+                                Versus <span style="text-shadow: rgb(255 255 255) 0px 0px 2px, rgb(225 45 255) 0px 0px 5px;
+                                color: rgb(47, 107, 235);">New!</span>
                             </button>
                         </h5>
                         <p type="button" class="btn btn-warning" data-toggle="modal" data-target="#versusModal"
@@ -348,10 +349,101 @@
                                         <input type="text" class="form-control" v-model="freeVersusApiKey"
                                             placeholder="I promise I do not store this anywhere (optional)">
                                     </div>
-
-
                                     <button @click="getFreeVersus()" class="btn btn-primary">Get
                                         description</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header" id="headingThree"
+                        style="display: flex; flex-direction: row; justify-content: space-between;">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
+                                aria-expanded="false" aria-controls="collapseThree" @click="setCreate()">
+                                Create <span style="text-shadow: rgb(255 255 255) 0px 0px 2px, rgb(225 45 255) 0px 0px 5px;
+                                color: rgb(47, 107, 235);">New!</span>
+                            </button>
+                        </h5>
+                        <p type="button" class="btn btn-warning" data-toggle="modal" data-target="#createModal"
+                            style="margin: 0;">Info</p>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+
+                            <div style="display: flex; justify-content: space-around; align-items: center;">
+                                <div>
+                                    <input class="form-check-input" type="radio" id="CreatePremium" name="create"
+                                        value="createpremium" checked @click="setCreatePremium()"><label
+                                        class="form-check-label" for="premium">Premium <a href="#" data-toggle="modal"
+                                            data-target="#premiumModal">Why?</a></label>
+
+                                </div>
+                                <div>
+                                    <input class="form-check-input" type="radio" id="CreateFree" name="create"
+                                        value="createfree" @click="setCreateFree()">
+                                    <label class="form-check-label" for="free">Free <a href="#" data-toggle="modal"
+                                            data-target="#freeTierModal">Why?</a></label>
+
+                                </div>
+                            </div>
+                            <div class="card-body" v-if="createChoosed === 'Premium'">
+                                <form onsubmit="return false;" id="getCreateForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">Summoner name</label>
+                                        <input type="text" class="form-control" v-model="premiumCreateName"
+                                            placeholder="Enter a username">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">Region</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect01"
+                                                v-model="premiumCreateRegion">
+                                                <option v-for="region in regions" :value="region">{{region}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#paymentModal">Get results</button>
+                                </form>
+                            </div>
+
+                            <div class="card-body" v-if="createChoosed === 'Free'">
+                                <form onsubmit="return false;" id="getFreeCreateForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">Summoner name</label>
+                                        <input type="text" class="form-control" v-model="freeCreateName"
+                                            placeholder="Enter a username">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">Region</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect01" v-model="freeCreateRegion">
+                                                <option v-for="region in regions" v-bind:value="region" id="freeCreateRegion">
+                                                    {{region}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">OpenAI API KEY <a
+                                                href="https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key"
+                                                target="_blank">how
+                                                do I get this?</a> </label>
+                                        <input type="text" class="form-control" v-model="freeCreateApiKey"
+                                            placeholder="I promise I do not store this anywhere (optional)">
+                                    </div>
+                                    <button @click="getFreeCreate()" class="btn btn-primary">Create new champ</button>
                                 </form>
                             </div>
                         </div>
@@ -375,11 +467,11 @@
             <div class="description" v-if="description">
                 {{description}}
             </div>
+            <img style="max-width: 100%;" :src=image alt="">
             <div class="mt-5 text-muted alert alert-warning " role="alert"
                 style="display: flex; justify-content: space-between;">
                 <p style="margin: 0;">Made with love ❤️</p>
-                <p style="margin: 0;"><a href="https://ko-fi.com/oscarlucena" target="_blank">Buy me a coffe <img
-                            src="../public/img/kofi.png" alt="" style="height: 30px;"></a></p>
+                <p style="margin: 0;"><a href="https://ko-fi.com/oscarlucena" target="_blank">Buy me a coffee</a></p>
 
             </div>
             <footer

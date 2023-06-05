@@ -1,6 +1,7 @@
 import express from 'express';
 import { description } from '@/routes/description';
 import { versus } from './versus';
+import { create } from './create';
 const pino = require('pino-http')()
 
 
@@ -9,3 +10,4 @@ routes.use(pino)
 
 routes.use(description);
 routes.use(versus);
+routes.use(create);

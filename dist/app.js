@@ -33,7 +33,6 @@ const routes_1 = require("./routes");
 const dotenv = __importStar(require("dotenv"));
 const path_1 = __importDefault(require("path"));
 exports.app = (0, express_1.default)();
-//import { User } from './controllers/user';
 dotenv.config({ path: `.env${process.env.NODE_ENV}` });
 const publicPath = path_1.default.resolve(__dirname, './public');
 exports.app.use(express_1.default.static(publicPath));
