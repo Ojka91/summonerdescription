@@ -25,4 +25,4 @@ node_modules/
 server/build/
 server/dist/
 .server/dist/*
-.dist/*
+dist
