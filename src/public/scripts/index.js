@@ -76,14 +76,13 @@ var app = new Vue({
         })
       .then((res) => res.json())
       .then((json) => {
-        app.description = json.champDescription
+        app.description = json.champDescription ?? json
         app.image = json.image
-        console.log(json.image)
         app.loading = false
 
       })
       .catch((err) => {
-
+        console.log(err)
       })
 
       },

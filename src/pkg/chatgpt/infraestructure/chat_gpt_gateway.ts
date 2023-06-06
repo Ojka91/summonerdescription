@@ -32,8 +32,8 @@ export class ChatGptGateway implements ChatGptGatewayInterface {
           })
           return response?.data?.choices[0]?.message?.content ?? 'Hmm a problem occured. Please, contact support'
       } catch (error: any) {
-        logger.error(error?.response?.data?.error?.message, 'chatGptError: ' + error?.response?.data?.error?.message)
-        throw new Error(error?.response?.data?.error?.message)
+        logger.error(error?.response?.data?.error?.message || error?.response?.data?.error?.code, 'chatGptError: ' + error?.response?.data?.error?.message || error?.response?.data?.error?.code)
+        throw new Error(error?.response?.data?.error?.message || error?.response?.data?.error?.code)
 
       }
     }
