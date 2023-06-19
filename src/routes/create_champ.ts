@@ -1,6 +1,5 @@
-import GenerateFreeCreate from '@/controllers/generate_free_create';
-import GeneratePremiumCreate from '@/controllers/generate_premium_create';
-import GeneratePremiumVersus from '@/controllers/generate_premium_versus';
+import GenerateFreeCreateChamp from '@/controllers/generate_free_create_champ';
+import GeneratePremiumCreateChamp from '@/controllers/generate_premium_create_champ';
 import Payment from '@/controllers/payment';
 import { logger } from '@/utils/logger';
 import express, {
@@ -12,9 +11,9 @@ import express, {
 export const create: Router = express.Router();
 
 
-create.get('/create/free', async (req: Request, res: Response) => {
+create.get('/create-champ/free', async (req: Request, res: Response) => {
     try {
-        const generateFreeCreateHandler = new GenerateFreeCreate()
+        const generateFreeCreateHandler = new GenerateFreeCreateChamp()
         const response = await generateFreeCreateHandler.generate(req.query.region as string ?? '', req.query.name as string ?? '', req.query.api_key as string ?? '')
         return res.json(response);
     } catch (error) {
@@ -22,13 +21,13 @@ create.get('/create/free', async (req: Request, res: Response) => {
     }
 })
 
-create.post("/create/premium/order/create", async (req, res) => {
+create.post("/create-champ/premium/order/create", async (req, res) => {
     const paymentController = new Payment()
     const order = await paymentController.createOrder();
     res.json(order);
 });
 
-create.post("/create/premium/order/process", async (req, res) => {
+create.post("/create-champ/premium/order/process", async (req, res) => {
     try {
   
       const {
@@ -36,7 +35,7 @@ create.post("/create/premium/order/process", async (req, res) => {
       } = req.body;
       
       const paymentController = new Payment()
-      const generateCreateHandler = new GeneratePremiumCreate()
+      const generateCreateHandler = new GeneratePremiumCreateChamp()
   
       // 1, Capture payment
       await paymentController.capturePayment(orderId);

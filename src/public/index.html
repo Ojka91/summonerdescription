@@ -384,14 +384,14 @@
                             <div style="display: flex; justify-content: space-around; align-items: center;">
                                 <div>
                                     <input class="form-check-input" type="radio" id="CreatePremium" name="create"
-                                        value="createpremium" checked @click="setCreatePremium()"><label
+                                        value="createpremium" @click="setCreatePremium()" disabled><label
                                         class="form-check-label" for="premium">Premium <a href="#" data-toggle="modal"
                                             data-target="#premiumModal">Why?</a></label>
 
                                 </div>
                                 <div>
                                     <input class="form-check-input" type="radio" id="CreateFree" name="create"
-                                        value="createfree" @click="setCreateFree()">
+                                        value="createfree" checked @click="setCreateFree()">
                                     <label class="form-check-label" for="free">Free <a href="#" data-toggle="modal"
                                             data-target="#freeTierModal">Why?</a></label>
 

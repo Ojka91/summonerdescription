@@ -28,7 +28,7 @@ var app = new Vue({
       descriptionChoosed: 'Premium',
       versusChoosed: 'Premium',
       versusChoosed: 'Premium',
-      createChoosed: 'Premium',
+      createChoosed: 'Free',
       oppenedModal: 'description'
     },
     methods: {
@@ -72,7 +72,7 @@ var app = new Vue({
         app.description = ""
         app.loading = true
         app.image = ''
-        fetch(`/create/free?region=${app.freeCreateRegion}&name=${app.freeCreateName}&api_key=${app.freeCreateApiKey}`, {
+        fetch(`/create-champ/free?region=${app.freeCreateRegion}&name=${app.freeCreateName}&api_key=${app.freeCreateApiKey}`, {
         })
       .then((res) => res.json())
       .then((json) => {
@@ -109,7 +109,7 @@ var app = new Vue({
         app.oppenedModal = 'versus'
       },
       setCreate() {
-        app.oppenedModal = 'create'
+        app.oppenedModal = 'create-champ'
       },
       setDescription() {
         app.oppenedModal = 'description'

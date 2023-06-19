@@ -6,7 +6,7 @@ import { SummonerData } from "@/pkg/riot/domain/summoner_data";
 import { logger } from "@/utils/logger";
 import { RateLimiterSingleton } from "@/utils/rate_limiter";
 
-export default class GenerateFreeCreate {
+export default class GenerateFreeCreateChamp {
 
     public async generate(region: string, name: string, openAiApiKey: string) {
         try {
@@ -19,7 +19,7 @@ export default class GenerateFreeCreate {
 
             const getSummonerDataHandler = createGetSummonerDataHandler()
             const generateSummonerMetadata = createGenerateSummonerMetadatadHandler()
-            const freePrompt = createPrompt()
+            const promptGenerator = createPrompt()
             const chatGpt = createChatGptHandler()
             
 
@@ -30,7 +30,7 @@ export default class GenerateFreeCreate {
             const metadata = generateSummonerMetadata.getForDescription(summonerData, name)
 
             // Get prompt for free tier
-            const prompt = freePrompt.getCreatePrompt()
+            const prompt = promptGenerator.getCreatePrompt()
 
             const gptResponse = await chatGpt.chat(`${prompt} ${metadata}`, openAiApiKey)
 

@@ -5,7 +5,7 @@ import { createGetSummonerDataHandler } from "@/pkg/riot/bootstrap/get_summoner_
 import { SummonerData } from "@/pkg/riot/domain/summoner_data";
 import { logger } from "@/utils/logger";
 
-export default class GeneratePremiumCreate {
+export default class GeneratePremiumCreateChamp {
 
     public async generate(region: string, name: string) {
         try {
