@@ -356,10 +356,101 @@
                                         <input type="text" class="form-control" v-model="freeVersusApiKey"
                                             placeholder="I promise I do not store this anywhere (optional)">
                                     </div>
-
-
                                     <button @click="getFreeVersus()" class="btn btn-primary">Get
                                         results</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header" id="headingThree"
+                        style="display: flex; flex-direction: row; justify-content: space-between;">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
+                                aria-expanded="false" aria-controls="collapseThree" @click="setCreate()">
+                                Create new champion <span style="text-shadow: rgb(255 255 255) 0px 0px 2px, rgb(225 45 255) 0px 0px 5px;
+                                color: rgb(47, 107, 235); font-style: italic;">New!</span>
+                            </button>
+                        </h5>
+                        <p type="button" class="btn btn-warning" data-toggle="modal" data-target="#createModal"
+                            style="margin: 0;">Info</p>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+
+                            <div style="display: flex; justify-content: space-around; align-items: center;">
+                                <div>
+                                    <input class="form-check-input" type="radio" id="CreatePremium" name="create"
+                                        value="createpremium" @click="setCreatePremium()" disabled><label
+                                        class="form-check-label" for="premium">Premium <a href="#" data-toggle="modal"
+                                            data-target="#premiumModal">Why?</a> <i>Disabled due potential issues</i></label>
+
+                                </div>
+                                <div>
+                                    <input class="form-check-input" type="radio" id="CreateFree" name="create"
+                                        value="createfree" checked @click="setCreateFree()">
+                                    <label class="form-check-label" for="free">Free <a href="#" data-toggle="modal"
+                                            data-target="#freeTierModal">Why?</a></label>
+
+                                </div>
+                            </div>
+                            <div class="card-body" v-if="createChoosed === 'Premium'">
+                                <form onsubmit="return false;" id="getCreateForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">Summoner name</label>
+                                        <input type="text" class="form-control" v-model="premiumCreateName"
+                                            placeholder="Enter a username">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">Region</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect01"
+                                                v-model="premiumCreateRegion">
+                                                <option v-for="region in regions" :value="region">{{region}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#paymentModal">Create new champion!</button>
+                                </form>
+                            </div>
+
+                            <div class="card-body" v-if="createChoosed === 'Free'">
+                                <form onsubmit="return false;" id="getFreeCreateForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">Summoner name</label>
+                                        <input type="text" class="form-control" v-model="freeCreateName"
+                                            placeholder="Enter a username">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">Region</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect01" v-model="freeCreateRegion">
+                                                <option v-for="region in regions" v-bind:value="region" id="freeCreateRegion">
+                                                    {{region}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">OpenAI API KEY <a
+                                                href="https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key"
+                                                target="_blank">how
+                                                do I get this?</a> </label>
+                                        <input type="text" class="form-control" v-model="freeCreateApiKey"
+                                            placeholder="I promise I do not store this anywhere (optional)">
+                                    </div>
+                                    <button @click="getFreeCreate()" class="btn btn-primary">Create new champ!</button>
                                 </form>
                             </div>
                         </div>
@@ -383,6 +474,7 @@
             <div class="description" v-if="description">
                 {{description}}
             </div>
+            <img style="max-width: 100%;" :src=image alt="">
             <div class="mt-5 text-muted alert alert-warning " role="alert"
                 style="display: flex; justify-content: space-between;">
                 <p style="margin: 0;">Made with love ❤️</p>
@@ -527,6 +619,29 @@
         </div>
     </div>
 
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Create</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Want to know what would you be if you were a champ based on your playstyle?</p>
+                    <p>We will analyze your ingame data and an AI will create a League Of Legends new champion, with spells and picture included :)</p>
+                    <p>Want to try it?</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Yes I want!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="thanksModal" tabindex="-1" role="dialog" aria-labelledby="thanksModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -585,6 +700,8 @@
                 $('#paymentModal').modal('hide')
                 $('#thanksModal').modal('show')
                 app.loading = true
+                app.image = ''
+                app.description = ''
 
                 if (app.oppenedModal === "description") {
                     return fetch(`/${app.oppenedModal}/premium/order/process`, {
@@ -621,6 +738,25 @@
                     .then((response) => response.json())
                     .then((orderData) => {
                         app.description = JSON.stringify(orderData)
+                        app.loading = false
+
+                    });
+                } else if (app.oppenedModal === "create"){
+                    return fetch(`/${app.oppenedModal}/premium/order/process`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            orderId: data.orderID,
+                            summonerName: app.premiumCreateName,
+                            region: app.premiumCreateRegion
+                        })
+                    })
+                    .then((response) => response.json())
+                    .then((orderData) => {
+                        app.description = orderData.champDescription
+                        app.image = orderData.image
                         app.loading = false
 
                     });

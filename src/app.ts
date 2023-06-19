@@ -4,7 +4,6 @@ import { routes } from '@/routes';
 import * as dotenv from 'dotenv'
 import path from 'path';
 export const app: Express = express();
-//import { User } from './controllers/user';
 dotenv.config({ path: `.env${process.env.NODE_ENV}` });
 
 const publicPath = path.resolve(__dirname, './public')
@@ -20,9 +19,6 @@ app.get('/health', async (_req: Request, res: Response) => {
 
 app.get('/', (_, res) => {
   res.sendFile(path.join(__dirname, './index.html'));
-});
-app.get('//riot.txt', (_, res) => {
-  res.sendFile(path.join(__dirname, './riot.txt'));
 });
 
 app.listen(process.env.PORT || 3000, () => {
