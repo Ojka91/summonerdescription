@@ -20,9 +20,6 @@ app.get('/health', async (_req: Request, res: Response) => {
 app.get('/', (_, res) => {
   res.sendFile(path.join(__dirname, './index.html'));
 });
-app.get('//riot.txt', (_, res) => {
-  res.sendFile(path.join(__dirname, './riot.txt'));
-});
 
 app.listen(process.env.PORT || 3000, () => {
   console.log('Server listening on port 3000')
