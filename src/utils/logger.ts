@@ -7,5 +7,6 @@ export const logger = pino({
           level: label
         }
       }
-    }
+    },
+    redact: ['api_key']
   })
