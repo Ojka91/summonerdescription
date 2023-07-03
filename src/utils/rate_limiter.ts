@@ -9,7 +9,7 @@ class RateLimiter {
         NUM_REQUESTS: 0
     }
 
-    private MAX_REQUESTS_PER_DAY = 200
+    private MAX_REQUESTS_PER_DAY = 300
 
     constructor() {
         
