@@ -20,7 +20,7 @@ export class ChatGptGateway implements ChatGptGatewayInterface {
       }))
       try {
           const response =  await this.openAi.createChatCompletion({
-              model: 'gpt-3.5-turbo',
+              model: 'gpt-4',
               messages:[{
                   role: "system", content: 'You are a top professional League of Legends caster'
               },
